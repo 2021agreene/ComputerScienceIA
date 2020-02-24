@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Community Events Board</title>
+    </head>
+    <body>
+      <h1>Homepage</h1>
+      <div class="event-list">
+        <ul>
+          {% for event in events %}
+            <li>{{event.name}} - {{event.date}} - {{event.category}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <form method = "post" action = "/filter">
+      <p>Filter Events by Category</p>
+      <input type = "radio" value = "Creativity" name = "category">Creativity
+      <br>
+      <input type = "radio" value = "Activity" name = "category">Activity
+      <br>
+      <input type = "radio" value = "Service" name = "category">Service
+      <br>
+      <input type = "submit" value = "Submit"/>
+      <button><a href="/addevent">Add Events</a></button>
+    </form>
+    </body>
+</html>
