@@ -1,15 +1,32 @@
 <html>
     <head>
         <title>Community Events Board</title>
+        <style>
+        .event-list {
+                display: {{test}};
+              }
+        h1 {
+              width: 50%;
+              padding: 15px;
+              border: 5px solid gray;
+              margin: auto;
+              text-align: center;
+            }
+        </style>
     </head>
     <body>
       <h1>Homepage</h1>
       <div class="event-list">
+      <form method = "post" action = "/delete">
+        <p>Select Events</p>
         <ul>
           {% for event in events %}
-            <li>{{event.name}} - {{event.date}} - {{event.category}}</li>
+            <li><input type = "radio" name = "_id" value = {{event._id}}> - {{event.name}} - {{event.date}} - {{event.category}}</li>
           {% endfor %}
         </ul>
+      <p>Delete Selected</p>
+      <input type = "submit" value = "Submit"/>
+      </form>
       </div>
       <form method = "post" action = "/filter">
       <p>Filter Events by Category</p>
@@ -20,7 +37,7 @@
       <input type = "radio" value = "Service" name = "category">Service
       <br>
       <input type = "submit" value = "Submit"/>
-      <button><a href="/addevent">Add Events</a></button>
     </form>
+    <button><a href="/addevent">Add Events</a></button>
     </body>
 </html>

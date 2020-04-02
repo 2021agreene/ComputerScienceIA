@@ -2,9 +2,17 @@
     <head>
         <title>Login</title>
         <style>
+         div {
+           width: 320px;
+             padding: 10px;
+             border: 5px solid gray;
+             margin: 100px;
+             vertical-align: middle;
+           }
         </style>
     </head>
     <body>
+      <div class="event-list">
       <form method = "post" action = "/login">
         <p>Email</p>
         <input type = "text" name = "email"/>
@@ -17,5 +25,6 @@
         <br>
         </form>
         <button><a href="/signup">Sign Up</a></button>
+      </div>
     </body>
 </html>

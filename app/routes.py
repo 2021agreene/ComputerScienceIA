@@ -2,8 +2,18 @@ import os
 from app import app
 from flask import render_template, request, redirect, session, url_for
 from flask_pymongo import PyMongo
+from flask import Flask
+from bson.objectid import ObjectId
+from flask_mail import Mail, Message
 
+# app = Flask(__name__)
+app.config.from_pyfile('config.cfg')
+
+mail = Mail(app)
 app.config['MONGO_DBNAME'] = 'IA'
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 app.secret_key = b'\x1a\xaf3\x7f\x8b>\x80\xbe\xd4%C\x8e\xd9\xf70\xfan\xd4i\x1a!\x17\xf9\x1d'
 
@@ -11,15 +21,18 @@ app.config['MONGO_URI'] = 'mongodb+srv://admin:yEXc16X4d8OuM8b0@cluster0-3ainf.m
 
 mongo = PyMongo(app)
 
+login = True
 @app.route('/')
 @app.route('/index')
-
 def index():
     user_info = dict(request.form)
-    print(user_info)
     return render_template('index.html')
 
-
+@app.route('/practice', methods = ["get", "post"])
+def practice():
+    if request.method == "get":
+        return '<form action ="/" method="post"><input name="email"><input type = "submit"></form>'
+    return 'the email you entered is {}'.format(request.form['email'])
 @app.route('/add', methods = ["get", "post"])
 def add():
     user_info = dict(request.form)
@@ -33,7 +46,6 @@ def add():
 @app.route('/signup1', methods = ["get", "post"])
 def signup():
     user_info = dict(request.form)
-    print(user_info)
     email = user_info["email"]
     password = user_info["password"]
     name = user_info["name"]
@@ -54,16 +66,16 @@ def test():
 
 @app.route('/login', methods = ["get", "post"])
 def login():
+    global login
     user_info = dict(request.form)
-    print(user_info)
     email = user_info["email"]
     password = user_info["password"]
     collection = mongo.db.information
     query = list(collection.find({"email": email}))
-    print(query)
     if len(query) > 0:
         if query[0]["password"] == password:
             session['username'] = email
+            login = True
             return redirect('/homepage')
         else:
             return "error"
@@ -71,9 +83,17 @@ def login():
         return render_template('error.html', error = "Account does not exist", link = "/index")
 @app.route('/homepage')
 def homepage():
-    collection = mongo.db.events
-    events = collection.find({})
-    return render_template('homepage.html', events = events)
+    global login
+    test = "none"
+    if login == True:
+        collection = mongo.db.events
+        events = list(collection.find({}))
+        if len(events) > 0:
+            test = "all"
+        return render_template('homepage.html', events = events, test = test)
+    else:
+        return redirect('/index')
+
 @app.route('/filter', methods = ["get", "post"])
 def function():
     collection = mongo.db.events
@@ -84,3 +104,10 @@ def function():
 @app.route('/addevent')
 def display():
     return render_template('addevent.html')
+@app.route('/delete', methods = ["get", "post"])
+def delete():
+    collection = mongo.db.events
+    user_input = dict(request.form)
+    delete = user_input["_id"]
+    collection.delete_one({"_id": ObjectId(delete)})
+    return redirect('/homepage')
