@@ -1,6 +1,10 @@
-Flask==1.1.1 
-gunicorn==19.9.0
- flask-pymongo==2.3.0 
+Click==7.0
 dnspython==1.16.0
-pymongo==3.10.0 
-requests==2.22.0
+Flask==1.1.1
+Flask-Mail==0.9.1
+Flask-PyMongo==2.3.0
+itsdangerous==1.1.0
+Jinja2==2.10.3
+MarkupSafe==1.1.1
+pymongo==3.10.0
+Werkzeug==0.16.0
