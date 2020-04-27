@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Event Details</title>
+    </head>
+    <body>
+      <h1>Event Details</h1>
+      <div class="event-list">
+        <ul>
+          {% for event in events %}
+              <p>Event Name: {{event.name}}
+              Event Date: {{event.date}}
+              <br>
+              Event Categoyry: {{event.category}}
+              <br>
+              Event Description: {{event.description}}</p>
+          {% endfor %}
+        </ul>
+      </div>
+      <button><a href="/homepage">Back</a></button>
+    </body>
+</html>

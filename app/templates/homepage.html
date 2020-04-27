@@ -17,14 +17,14 @@
     <body>
       <h1>Homepage</h1>
       <div class="event-list">
-      <form method = "post" action = "/delete">
+      <form method = "post" action = "/details">
         <p>Select Events</p>
         <ul>
           {% for event in events %}
             <li><input type = "radio" name = "_id" value = {{event._id}}> - {{event.name}} - {{event.date}} - {{event.category}}</li>
           {% endfor %}
         </ul>
-      <p>Delete Selected</p>
+      <p>View Details</p>
       <input type = "submit" value = "Submit"/>
       </form>
       </div>
@@ -39,5 +39,7 @@
       <input type = "submit" value = "Submit"/>
     </form>
     <button><a href="/addevent">Add Events</a></button>
+    <button><a href="/register">Register For An Event</a></button>
+    <button><a href="/attending">View Event Attendies</a></button>
     </body>
 </html>
